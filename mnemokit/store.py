@@ -338,7 +338,7 @@ class MemoryStore:
         except sqlite3.Error:
             pass
 
-    def __enter__(self) -> "MemoryStore":
+    def __enter__(self) -> MemoryStore:
         return self
 
     def __exit__(self, *exc: Any) -> None:
