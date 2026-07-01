@@ -24,6 +24,8 @@ jobs:
           enable-cache: true
       - name: Install dependencies
         run: uv sync --dev
+      - name: Install test tools
+        run: uv pip install pytest pytest-cov
       - name: Run tests with coverage
         run: uv run pytest -q --cov=mnemokit --cov-fail-under=90
       - name: Type check (pyright)
