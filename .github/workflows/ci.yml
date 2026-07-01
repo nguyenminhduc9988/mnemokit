@@ -39,8 +39,8 @@ jobs:
           python-version: "3.12"
       - name: Install uv
         uses: astral-sh/setup-uv@v4
-      - name: Install dependencies
-        run: uv sync --dev
+      - name: Install lint tools
+        run: uv pip install ruff pytest pytest-cov
       - name: Run ruff
         run: uv run ruff check mnemokit/ tests/
       - name: Run ruff format check
