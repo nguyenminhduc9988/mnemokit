@@ -9,14 +9,15 @@ or frequently-accessed memories surface higher.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import sqlite3
 import threading
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
-
+from typing import Any
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS memories (
@@ -151,7 +152,7 @@ class MemoryStore:
             (
                 text,
                 json.dumps(metadata or {}, ensure_ascii=False),
-                json.dumps([t for t in (tags or [])], ensure_ascii=False),
+                json.dumps(list(tags or []), ensure_ascii=False),
                 now,
                 now,
                 now,
@@ -186,8 +187,14 @@ class MemoryStore:
                WHERE id = ?""",
             (
                 text if text is not None else existing.text,
-                json.dumps(metadata if metadata is not None else existing.metadata, ensure_ascii=False),
-                json.dumps(list(tags) if tags is not None else existing.tags, ensure_ascii=False),
+                json.dumps(
+                    metadata if metadata is not None else existing.metadata,
+                    ensure_ascii=False,
+                ),
+                json.dumps(
+                    list(tags) if tags is not None else existing.tags,
+                    ensure_ascii=False,
+                ),
                 time.time(),
                 memory_id,
             ),
@@ -333,10 +340,8 @@ class MemoryStore:
 
     def close(self) -> None:
         """Close the underlying database connection."""
-        try:
+        with contextlib.suppress(sqlite3.Error):
             self._conn.close()
-        except sqlite3.Error:
-            pass
 
     def __enter__(self) -> MemoryStore:
         return self
