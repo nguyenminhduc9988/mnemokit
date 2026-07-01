@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mnemokit"
+version = "0.1.0"
+description = "Lightweight persistent memory for AI agents and CLI tools — SQLite + FTS5 full-text search, zero dependencies"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Duc Nguyen", email = "nguyenminhduc9988@users.noreply.github.com"}]
+maintainers = [{name = "Duc Nguyen", email = "nguyenminhduc9988@users.noreply.github.com"}]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Database",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+keywords = ["memory", "ai-agent", "cli", "sqlite", "fts5", "full-text-search", "persistent-storage"]
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff"]
+
+[project.urls]
+Homepage = "https://github.com/nguyenminhduc9988/mnemokit"
+Repository = "https://github.com/nguyenminhduc9988/mnemokit"
+Issues = "https://github.com/nguyenminhduc9988/mnemokit/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mnemokit*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+lint.select = ["E", "F", "I", "W", "UP", "B", "C4", "ARG", "PTH", "SIM", "TID", "RET"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
